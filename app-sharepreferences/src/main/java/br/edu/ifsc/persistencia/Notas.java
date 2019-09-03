@@ -26,11 +26,11 @@ public class Notas {
         }
     }
 
-    public Boolean recuperar(){
+    public String recuperar(){
         if(sharedPreferences.contains("nota")) {
-            return true;
+            return sharedPreferences.getString("nota","");
         }else {
-            return false;
+            return "Nota não recuperada";
         }
     }
 }

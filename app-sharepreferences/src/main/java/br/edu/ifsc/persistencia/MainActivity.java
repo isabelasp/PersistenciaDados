@@ -7,17 +7,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
     EditText editText;
     Notas nota;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         nota = new Notas(getApplicationContext());
         editText = findViewById(R.id.textInputLayout);
-
     }
 
     @Override
@@ -31,11 +29,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (nota.recuperar()) {
-            sharedPreferences.getString("nota", "");
-        }else{
-            Toast.makeText(getApplicationContext(),"Nota não encontrada",Toast.LENGTH_LONG).show();
-        }
-
+        String str;
+        str = nota.recuperar();
+        editText.setText(str);
     }
 }
