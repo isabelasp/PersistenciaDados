@@ -10,13 +10,12 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     EditText editText;
+    Notas nota;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        sharedPreferences = getSharedPreferences("dadosUsuario",MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        nota = new Notas(getApplicationContext());
         editText = findViewById(R.id.textInputLayout);
 
     }
@@ -24,17 +23,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        editor.putString("nota", editText.getText().toString());
-        editor.commit();
-        Toast.makeText(this,"Texto Salvo",Toast.LENGTH_LONG).show();
+        if (nota.salvar(editText.getText().toString())){
+            Toast.makeText(this,"Texto Salvo",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(sharedPreferences.contains("nota"))
-            sharedPreferences.getString("nota","");
-        else
-            Toast.makeText(getApplicationContext(),"Nota não encontrada",Toast.LENGTH_LONG).show();;
+        if (nota.recuperar()) {
+            sharedPreferences.getString("nota", "");
+        }else{
+            Toast.makeText(getApplicationContext(),"Nota não encontrada",Toast.LENGTH_LONG).show();
+        }
+
     }
 }
